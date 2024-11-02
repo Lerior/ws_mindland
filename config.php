@@ -8,9 +8,9 @@ class Config{
     const USER = "root";
     const PASS = "";
     */
-    const HOST = "junction.proxy.rlwy.net";
-    const PORT = "40174";
-    const BD = "mindland";
-    const USER = "root";
-    const PASS = "exbbxvPnUGJsCxqVXVPoqpnAakOrNnUx";
+    const HOST = getenv('HOST');
+    const PORT = getenv('PORT');
+    const BD = getenv('DB');
+    const USER = getenv('USER');
+    const PASS = getenv('PASS');
 }
