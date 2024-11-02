@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode(["login" => "n", "token" => "Error", "message" => "Parámetros inválidos"]);
     }
 }
+?>
 /*
 require_once 'conexion.php';
 require_once 'jwt.php';
