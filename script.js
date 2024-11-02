@@ -3,8 +3,8 @@ function login() {
     const password = document.getElementById("password").value;
 
     // Construye la URL con los parámetros de usuario y contraseña
-    //const url = `http://lerimind.wuaze.com/mindland/login.php?user=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`;
-    const url = `http://localhost/mindland/login.php?user=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`;
+    const url = `http://wsmindland-production.up.railway.app/login.php?user=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`;
+    //const url = `http://localhost/mindland/login.php?user=${encodeURIComponent(username)}&pass=${encodeURIComponent(password)}`;
 
     fetch(url)
         .then(response => response.json())
