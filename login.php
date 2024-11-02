@@ -2,6 +2,8 @@
 require_once 'conexion.php';
 require_once 'jwt.php';
 
+header('Content-Type: application/json');
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["user"]) && isset($_GET["pass"])) {
         $c = conexion();
