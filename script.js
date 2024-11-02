@@ -11,9 +11,9 @@ function login() {
             // Muestra la respuesta del servidor
             const responseDiv = document.getElementById("response");
             if (data.login === "y") {
-                responseDiv.innerHTML = `<p>Login exitoso. Token: ${data.token}</p>`;
+                console.log(data.token);
             } else {
-                responseDiv.innerHTML = `<p>Error: ${data.message}</p>`;
+                console.log(data.login);
             }
         })
         .catch(error => {
