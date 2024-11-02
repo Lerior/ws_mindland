@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $result = ["login" => "n", "token" => "Error", "message" => "Usuario no encontrado"];
         }
 
-        header("http/1.1 200 ok");
+        //header("http/1.1 200 ok");
         echo json_encode($result);
     } else {
-        header("HTTP/1.1 400 Bad Request");
+        //header("HTTP/1.1 400 Bad Request");
         echo json_encode(["login" => "n", "token" => "Error", "message" => "Parámetros inválidos"]);
     }
 }
