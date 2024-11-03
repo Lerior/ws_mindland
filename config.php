@@ -8,8 +8,8 @@ class Config{
     const USER = "root";
     const PASS = "";
     */
-    const HOST = "junction.proxy.rlwy.net";
-    const PORT = "40174";
+    const HOST = "mysql.railway.internal";
+    const PORT = "3306";
     const BD = "mindland";
     const USER = "root";
     const PASS = "exbbxvPnUGJsCxqVXVPoqpnAakOrNnUx";
