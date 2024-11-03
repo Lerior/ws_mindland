@@ -7,7 +7,7 @@
 
     $con = mysqli_connect($host, $username, $password, $dbname, $port);
 
-    $c = conexion();
+    $con = conexion();
     if ($con) {
         echo "SIII.";
     }else{
