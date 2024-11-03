@@ -1,7 +1,9 @@
 <?php
 require_once 'conexion.php';
 require_once 'jwt.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -27,10 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $result = ["login" => "n", "token" => "Error", "message" => "Usuario no encontrado"];
         }
 
-        header("https/1.1 200 ok");
+        header("HTTP/1.1 200 OK");
         echo json_encode($result);
     } else {
-        header("HTTPs/1.1 400 Bad Request");
+        header("HTTP/1.1 400 Bad Request"); // Para errores de solicitud
         echo json_encode(["login" => "n", "token" => "Error", "message" => "Parámetros inválidos"]);
     }
 }
