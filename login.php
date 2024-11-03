@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         if ($r) {
             // Verifica la contraseña usando password_verify
             if (password_verify($_GET["pass"], $r['user_password'])) {
-                $t = JWT::create(["user_app" => $_GET["user"]], Config::SECRET);
+                $t = JWT::create(["user_app" => $_GET["user"]], Config::$SECRET);
                 $result = ["login" => "y", "token" => $t];
             } else {
                 $result = ["login" => "n", "token" => "Error", "message" => "Contraseña incorrecta"];
