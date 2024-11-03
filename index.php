@@ -6,3 +6,10 @@
     $password = $_ENV['MYSQLPASSWORD'];
 
     $con = mysqli_connect($host, $username, $password, $dbname, $port);
+
+    $c = conexion();
+    if ($con) {
+        echo "SIII.";
+    }else{
+        echo "NOOOO.";
+    }
