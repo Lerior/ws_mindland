@@ -35,7 +35,7 @@ switch($metodo){
             echo json_encode($r);
         break;
     case 'POST':
-        if(isset($_POST['titulo']) && isset($_POST['descipcion'])){
+        if(isset($_POST['titulo']) && isset($_POST['descripcion'])){
             $c = conexion();
             $s = $c->prepare("INSERT INTO topics (tittle, description, user_id) VALUES (:titulo, :descripcion, :usuario)");
             $s->bindValue(":titulo", $_POST['titulo']);
