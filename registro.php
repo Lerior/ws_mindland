@@ -15,6 +15,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST['nombre']) && isset($_POST['rol']) && isset($_POST['suscripcion']) && isset($_POST['numero']) 
     && isset($_POST['correo']) && isset($_POST['nacimiento']) && isset($_POST['contrasena']) && isset($_POST['user'])){
         $c = conexion();
+        // Verificar si el usuario ya existe
+        $check = $c->prepare("SELECT COUNT(*) FROM users WHERE user_app = :user");
+        $check->bindValue(":user", $userA);
+        $check->execute();
+        $userExists = $check->fetchColumn();
+        
+        if ($userExists > 0) {
+            echo json_encode(array("add" => "x"));
+            exit; // Salir para evitar el INSERT
+        }
+        
+        // Insertar el usuario si no existe
         $s = $c->prepare("INSERT INTO users (user_name, user_rol, user_suscription, user_phone, user_mail, user_birth, user_password, user_app) 
         VALUES (:uname, :rol, :sus, :phone, :mail, :birth, :pass, :user)");
         $s->bindValue(":uname", $user);
