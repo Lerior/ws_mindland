@@ -15,7 +15,7 @@ $user = JWT::get_data($jwt, Config::SECRET)['user'] ?? null;
 error_log("Usuario obtenido del token: " . $user);
 if (!$user) {
     header("HTTP/1.1 400 Bad Request");
-    echo "No se pudo obtener el usuario del token.";
+    echo "No se pudo obtener el usuario del token."+$user;
     exit;
 }
 $c = conexion();
