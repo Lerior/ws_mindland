@@ -1,6 +1,6 @@
 <?php
 class Config{
-    const SECRET = "mindlandKEY";
+    const SECRET = "";
     
     /*
     const HOST = "localhost";
