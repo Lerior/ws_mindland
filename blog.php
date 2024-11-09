@@ -34,11 +34,11 @@ $metodo = $_SERVER["REQUEST_METHOD"];
 switch($metodo){
     case 'GET':
             $c = conexion();
-            if(isset($_GET['id_alert'])){
-                $s = $c->prepare("SELECT * FROM alert WHERE id_alert = :id_alert");
-                $s->bindValue(":id_alert", $_GET['id_alert']);
+            if(isset($_GET['idTopic'])){
+                $s = $c->prepare("SELECT * FROM topics WHERE topic_id = :topic_id");
+                $s->bindValue(":topic_id", $_GET['idTopic']);
             }else{
-                $s = $c->prepare("SELECT * FROM alert");
+                $s = $c->prepare("SELECT * FROM topics");
             }
             $s->execute();
             $s->setFetchMode(PDO::FETCH_ASSOC);
@@ -67,22 +67,17 @@ switch($metodo){
         }
         break;
     case 'PUT':
-        if(isset($_GET['id_alert']) ){
-            $sql = "UPDATE alert SET ";
-            (isset($_GET['user'])) ? $sql .= "user = :u, " : null;
-            (isset($_GET['n_student'])) ? $sql .= "n_student = :ns, " : null;
-            (isset($_GET['ouser'])) ? $sql .= "ouser = :o, " : null;
-            (isset($_GET['hrfecha'])) ? $sql .= "hrfecha = :h, " : null;
+        if(isset($_GET['idTopic']) ){
+            $sql = "UPDATE topics SET ";
+            (isset($_GET['titulo'])) ? $sql .= "tittle = :titulo, " : null;
+            (isset($_GET['descripcion'])) ? $sql .= "description = :descripcion, " : null;
             $sql = substr($sql, 0, -2);
-            $sql .= " WHERE id_alert = :id_alert";
+            $sql .= " WHERE topic_id = :topic_id";
             $c = conexion();
             $s = $c->prepare($sql);
-            (isset($_GET['user'])) ? $s->bindValue(":u", $_GET['user']) : null;
-            (isset($_GET['n_student'])) ? $s->bindValue(":ns", $_GET['n_student']) : null;
-            (isset($_GET['ouser'])) ? $s->bindValue(":o", $_GET['ouser']) : null;
-            (isset($_GET['hrfecha'])) ? $s->bindValue(":h", $_GET['hrfecha']) : null;
-
-            $s->bindValue(":id_alert", $_GET['id_alert']);
+            (isset($_GET['titulo'])) ? $s->bindValue(":titulo", $_GET['titulo']) : null;
+            (isset($_GET['descripcion'])) ? $s->bindValue(":descripcion", $_GET['descripcion']) : null;
+            $s->bindValue(":topic_id", $_GET['idTopic']);
             $s->execute();
             if($s->rowCount()>0){
                 header("http/1.1 200 ok");
@@ -97,10 +92,10 @@ switch($metodo){
         }
         break;
     case 'DELETE':
-        if(isset($_GET['id_alert'])){
+        if(isset($_GET['idTopic'])){
             $c = conexion();
-            $s = $c->prepare("DELETE FROM alert WHERE id_alert = :id_alert");
-            $s->bindValue(":id_alert", $_GET['id_alert']);
+            $s = $c->prepare("DELETE FROM topics WHERE topic_id = :topic_id");
+            $s->bindValue(":topic_id", $_GET['idTopic']);
             $s->execute();
             if($s->rowCount()>0){
                 header("http/1.1 200 ok");
