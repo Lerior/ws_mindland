@@ -11,7 +11,7 @@ if(JWT::verify($jwt, Config::SECRET) > 0){
     exit;
 }
 
-$user = JWT::get_data($jwt, Config::SECRET)['user'] ?? null;
+$user = JWT::get_data($jwt, Config::SECRET)['user_app'] ?? null;
 error_log("Usuario obtenido del token: " . $user);
 if (!$user) {
     header("HTTP/1.1 400 Bad Request");
