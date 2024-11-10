@@ -18,12 +18,21 @@ if (!$user) {
     echo "No se pudo obtener el usuario del token.";
     exit;
 }
+
 $c = conexion();
 $s = $c->prepare("SELECT user_id FROM users WHERE user_app = :user");
 $s->bindValue(":user",$user);
 $s->execute();
 $idUser = $s->fetchColumn();
-
+/*
+//Bloque buscar id para encontrar al usuario
+$idUserComment = $_GET['userC'];
+$c = conexion();
+$s = $c->prepare("SELECT user_id FROM users WHERE user_app = :user");
+$s->bindValue(":user",$idUserComment);
+$s->execute();
+$idUser = $s->fetchColumn();
+*/
 if (!$idUser) {
     header("HTTP/1.1 400 Bad Request");
     echo "Usuario no encontrado.";
@@ -36,10 +45,10 @@ switch($metodo){
     case 'GET':
             $c = conexion();
             if(isset($_GET['idTopic'])){
-                $s = $c->prepare("SELECT * FROM topics WHERE topic_id = :topic_id");
-                $s->bindValue(":topic_id", $_GET['idTopic']);
+                $s = $c->prepare("SELECT * FROM comments WHERE topic_id = :idTopic");
+                $s->bindValue(":idTopic", $_GET['idTopic']);
             }else{
-                $s = $c->prepare("SELECT * FROM topics");
+                $s = $c->prepare("SELECT * FROM comments");
             }
             $s->execute();
             $s->setFetchMode(PDO::FETCH_ASSOC);
@@ -48,16 +57,16 @@ switch($metodo){
             echo json_encode($r);
         break;
     case 'POST':
-        if(isset($_POST['titulo']) && isset($_POST['descripcion'])){
+        if(isset($_POST['comentario']) && isset($_POST['idTopic'])){
             $c = conexion();
-            $s = $c->prepare("INSERT INTO topics (tittle, description, user_id) VALUES (:titulo, :descripcion, :usuario)");
-            $s->bindValue(":titulo", $_POST['titulo']);
-            $s->bindValue(":descripcion", $_POST['descripcion']);
+            $s = $c->prepare("INSERT INTO comments (topic_id, comment, user_id) VALUES (:idTopic, :comentario, :usuario)");
+            $s->bindValue(":idTopic", $_POST['idTopic']);
+            $s->bindValue(":comentario", $_POST['comentario']);
             $s->bindValue(":usuario", $idUser);
             $s->execute();
             if($s->rowCount()>0){
                 header("http/1.1 201 created");
-                echo json_encode(array("add" => "y", "topic_id" => $c->lastInsertId()));
+                echo json_encode(array("add" => "y", "comment_id" => $c->lastInsertId()));
             }else{
                 header("http/1.1 400 bad request");
                 echo json_encode(array("add" => "n"));
@@ -68,17 +77,15 @@ switch($metodo){
         }
         break;
     case 'PUT':
-        if(isset($_GET['idTopic']) ){
-            $sql = "UPDATE topics SET ";
-            (isset($_GET['titulo'])) ? $sql .= "tittle = :titulo, " : null;
-            (isset($_GET['descripcion'])) ? $sql .= "description = :descripcion, " : null;
+        if(isset($_GET['idComment']) ){
+            $sql = "UPDATE comments SET ";
+            (isset($_GET['comentario'])) ? $sql .= "comment = :comentario, " : null;
             $sql = substr($sql, 0, -2);
-            $sql .= " WHERE topic_id = :topic_id";
+            $sql .= " WHERE comment_id = :comment_id";
             $c = conexion();
             $s = $c->prepare($sql);
-            (isset($_GET['titulo'])) ? $s->bindValue(":titulo", $_GET['titulo']) : null;
-            (isset($_GET['descripcion'])) ? $s->bindValue(":descripcion", $_GET['descripcion']) : null;
-            $s->bindValue(":topic_id", $_GET['idTopic']);
+            (isset($_GET['comentario'])) ? $s->bindValue(":comentario", $_GET['comentario']) : null;
+            $s->bindValue(":comment_id", $_GET['idComment']);
             $s->execute();
             if($s->rowCount()>0){
                 header("http/1.1 200 ok");
@@ -93,10 +100,10 @@ switch($metodo){
         }
         break;
     case 'DELETE':
-        if(isset($_GET['idTopic'])){
+        if(isset($_GET['idComment'])){
             $c = conexion();
-            $s = $c->prepare("DELETE FROM topics WHERE topic_id = :topic_id");
-            $s->bindValue(":topic_id", $_GET['idTopic']);
+            $s = $c->prepare("DELETE FROM comments WHERE comment_id = :comment_id");
+            $s->bindValue(":comment_id", $_GET['idComment']);
             $s->execute();
             if($s->rowCount()>0){
                 header("http/1.1 200 ok");
