@@ -43,18 +43,28 @@ if (!$idUser) {
 $metodo = $_SERVER["REQUEST_METHOD"];
 switch($metodo){
     case 'GET':
-            $c = conexion();
-            if(isset($_GET['idTopic'])){
-                $s = $c->prepare("SELECT * FROM comments WHERE topic_id = :idTopic");
-                $s->bindValue(":idTopic", $_GET['idTopic']);
-            }else{
-                $s = $c->prepare("SELECT * FROM comments");
-            }
-            $s->execute();
-            $s->setFetchMode(PDO::FETCH_ASSOC);
-            $r = $s->fetchAll();
-            header("http/1.1 200 ok");
-            echo json_encode($r);
+        $c = conexion();
+        if(isset($_GET['idTopic'])){
+            // Modificación: Join para obtener user_app en lugar de user_id
+            $s = $c->prepare("
+                SELECT comments.*, users.user_app 
+                FROM comments 
+                JOIN users ON comments.user_id = users.user_id 
+                WHERE comments.topic_id = :idTopic
+            ");
+            $s->bindValue(":idTopic", $_GET['idTopic']);
+        } else {
+            $s = $c->prepare("
+                SELECT comments.*, users.user_app 
+                FROM comments 
+                JOIN users ON comments.user_id = users.user_id
+            ");
+        }
+        $s->execute();
+        $s->setFetchMode(PDO::FETCH_ASSOC);
+        $r = $s->fetchAll();
+        header("http/1.1 200 ok");
+        echo json_encode($r);
         break;
     case 'POST':
         if(isset($_POST['comentario']) && isset($_POST['idTopic'])){
